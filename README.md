@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Smart Queue Routing System (SQRS)
 
 ## CUCB-OTA: Causal Uplift Contextual Bandit + Optimal Transport Assignment
@@ -194,3 +195,6 @@ Where:
 
 MIT License - Hackathon Submission 2024
 
+=======
+# Hackathon-
+>>>>>>> 79139688ba200feb220b6e17cf7a6dd71701a731
