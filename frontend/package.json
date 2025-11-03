@@ -1,0 +1,51 @@
+{
+  "name": "sqrs-frontend",
+  "version": "1.0.0",
+  "description": "Smart Queue Routing System - Frontend Dashboard",
+  "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.2.3",
+    "@tanstack/react-query": "^5.90.6",
+    "axios": "^1.6.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-query": "^3.39.3",
+    "react-router-dom": "^6.20.0",
+    "react-scripts": "5.0.1",
+    "recharts": "^2.10.0",
+    "socket.io-client": "^4.6.0",
+    "zustand": "^5.0.8"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.0",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "autoprefixer": "^10.4.21",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.552.0",
+    "postcss": "^8.5.6",
+    "tailwind-merge": "^3.3.1",
+    "tailwindcss": "^4.1.16",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "^5.9.3"
+  }
+}

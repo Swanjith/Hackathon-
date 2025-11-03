@@ -1,0 +1,113 @@
+.agent-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.agent-card {
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  transition: all 0.2s;
+}
+
+.agent-card:hover {
+  border-color: #667eea;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+}
+
+.agent-card.busy {
+  border-color: #ff9800;
+}
+
+.agent-card.available {
+  border-color: #4caf50;
+}
+
+.agent-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.agent-id {
+  font-weight: 600;
+  color: #333;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.status-badge.available {
+  background: #e8f5e9;
+  color: #388e3c;
+}
+
+.status-badge.busy {
+  background: #fff3e0;
+  color: #f57c00;
+}
+
+.agent-load {
+  margin-bottom: 0.75rem;
+}
+
+.load-bar-container {
+  width: 100%;
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.25rem;
+}
+
+.load-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #4caf50, #ff9800, #f44336);
+  transition: width 0.3s;
+}
+
+.load-text {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.agent-channels {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.channel-load {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.channel-name {
+  text-transform: capitalize;
+}
+
+.channel-count {
+  font-weight: 600;
+}
+
+.agent-performance {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #999;
+  padding-top: 0.5rem;
+  border-top: 1px solid #eee;
+}
+

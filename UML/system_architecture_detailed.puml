@@ -1,0 +1,247 @@
+@startuml Detailed System Architecture - SQRS
+
+title Detailed Component Architecture\nSmart Queue Routing System (SQRS)
+
+skinparam classAttributeIconSize 0
+skinparam defaultFontName Arial
+skinparam defaultFontSize 10
+
+package "Frontend Components" #LightBlue {
+    class Dashboard {
+        + render()
+        + handleSimulationControl()
+    }
+    class AgentGrid {
+        + renderAgents()
+        + updateAgentStatus()
+    }
+    class MetricsChart {
+        + plotMetrics()
+        + updateChart()
+    }
+    class PolicyComparison {
+        + comparePolicies()
+        + renderComparison()
+    }
+}
+
+package "API Layer" #LightGreen {
+    class FlaskAPI {
+        + app: Flask
+        + socketio: SocketIO
+        + simulator_state: Dict
+        + initialize_models()
+        + start_simulation()
+        + stop_simulation()
+        + get_metrics()
+        + get_agents()
+    }
+    
+    class RESTEndpoints {
+        + /api/health
+        + /api/config
+        + /api/metrics/current
+        + /api/metrics/historical
+        + /api/agents
+        + /api/routing/matrix
+        + /api/simulation/start
+        + /api/simulation/stop
+    }
+    
+    class WebSocketHandler {
+        + handle_connect()
+        + handle_disconnect()
+        + emit_metrics_update()
+    }
+}
+
+package "Configuration" #LightYellow {
+    class Config {
+        + NUM_AGENTS: int
+        + NUM_CUSTOMERS_PER_BATCH: int
+        + CHANNELS: List[str]
+        + SKILLS: List[str]
+        + CAPACITY_RULES: Dict
+        + MAX_AHT_MINUTES: float
+        + MAX_SLA_VIOLATION_RATE: float
+        + FAIRNESS_GINI_THRESHOLD: float
+        + LAMBDA_INIT: float
+        + LAMBDA_LR: float
+    }
+}
+
+package "Data Generation" #LightCoral {
+    class SyntheticDataGenerator {
+        - agents: DataFrame
+        - historical_data: DataFrame
+        + _generate_agents()
+        + _generate_historical_interactions()
+        + generate_customer_batch()
+        + simulate_interaction_outcome()
+    }
+}
+
+package "ML Models" #LightPink {
+    class UpliftModel {
+        - mu0_model: LGBMRegressor
+        - mu1_model: LGBMRegressor
+        - tau0_model: LGBMRegressor
+        - tau1_model: LGBMRegressor
+        - is_trained: bool
+        + train(historical_data, agents)
+        + predict_uplift(customer, agent) : Tuple[float, float]
+        - _featurize(customer, agent) : ndarray
+    }
+    
+    class CapacityModel {
+        - aht_model: LGBMRegressor
+        - is_trained: bool
+        + train(historical_data, agents)
+        + predict_aht(customer, agent) : float
+        + check_capacity(agent, channel) : bool
+    }
+}
+
+package "Routing Engine" #LightSeaGreen {
+    class RoutingScorer {
+        - uplift_model: UpliftModel
+        - capacity_model: CapacityModel
+        - lambda_aht: float
+        - lambda_sla: float
+        - lambda_fairness: float
+        + compute_routing_matrix(customers, agents) : Tuple[ndarray, Dict]
+        + update_dual_variables(realized_metrics)
+        + get_dual_state() : Dict
+    }
+    
+    class AssignmentSolver {
+        + solve_hungarian(RS_matrix, customers, agents) : List[Tuple[int, int]]
+        + solve_greedy_with_capacity(RS_matrix, customers, agents) : List[Tuple[int, int]]
+        + hybrid_solve(RS_matrix, customers, agents) : List[Tuple[int, int]]
+    }
+}
+
+package "Simulation" #LightSteelBlue {
+    class RoutingSimulator {
+        - data_gen: SyntheticDataGenerator
+        - uplift_model: UpliftModel
+        - capacity_model: CapacityModel
+        - agents: DataFrame
+        - scorer: RoutingScorer
+        - metrics: MetricsTracker
+        - ope: OffPolicyEvaluator
+        + run_simulation(n_batches, policy_fn, policy_name)
+        - _initialize_agent_loads()
+        - _decay_agent_loads()
+    }
+    
+    class PolicyFunctions {
+        + cucb_ota_policy(customers, agents, scorer) : List[Tuple[int, int]]
+        + fcfs_policy(customers, agents, scorer) : List[Tuple[int, int]]
+        + skill_based_greedy_policy(customers, agents, scorer) : List[Tuple[int, int]]
+    }
+    
+    class ResultsVisualizer {
+        + plot_policy_comparison(results)
+        + plot_convergence(simulators)
+        + plot_agent_workload(simulators)
+        + save_all_visualizations()
+    }
+}
+
+package "Evaluation" #LightGoldenRodYellow {
+    class MetricsTracker {
+        - batch_metrics: List[Dict]
+        - assignment_history: List[Dict]
+        - agent_workload: Dict
+        + record_batch(batch_id, assignments, customers, agents, outcomes)
+        + get_summary_stats() : Dict
+        + get_dataframe() : DataFrame
+        - _compute_gini(loads) : float
+    }
+    
+    class OffPolicyEvaluator {
+        - interaction_log: List[Dict]
+        + log_interaction(customer, agent, assignment_prob, outcome)
+        + estimate_value(policy_fn) : float
+        + doubly_robust_estimate(logged_data, target_policy) : float
+    }
+}
+
+package "Main Entry" #LightGray {
+    class Main {
+        + main()
+        + train_models(data_generator)
+        + run_experiments(data_generator, models, n_batches)
+        + generate_visualizations(results, simulators)
+        + run_ope_analysis(simulators)
+        + save_final_report(results, simulators)
+    }
+}
+
+' Relationships
+FlaskAPI --> RESTEndpoints
+FlaskAPI --> WebSocketHandler
+FlaskAPI --> RoutingSimulator
+FlaskAPI --> MetricsTracker
+FlaskAPI --> RoutingScorer
+FlaskAPI --> SyntheticDataGenerator
+
+Main --> Config
+Main --> SyntheticDataGenerator
+Main --> UpliftModel
+Main --> CapacityModel
+Main --> RoutingSimulator
+Main --> ResultsVisualizer
+Main --> OffPolicyEvaluator
+
+RoutingScorer --> UpliftModel : uses
+RoutingScorer --> CapacityModel : uses
+RoutingScorer --> Config : reads config
+
+AssignmentSolver --> Config : reads channel rules
+
+RoutingSimulator --> SyntheticDataGenerator : generates customers
+RoutingSimulator --> RoutingScorer : computes scores
+RoutingSimulator --> AssignmentSolver : solves assignment
+RoutingSimulator --> MetricsTracker : records metrics
+RoutingSimulator --> OffPolicyEvaluator : logs interactions
+RoutingSimulator --> Config : reads params
+
+PolicyFunctions --> RoutingScorer : uses
+PolicyFunctions --> AssignmentSolver : uses
+
+UpliftModel --> SyntheticDataGenerator : trains on historical data
+CapacityModel --> SyntheticDataGenerator : trains on historical data
+
+MetricsTracker --> ResultsVisualizer : provides data
+ResultsVisualizer --> Config : reads output paths
+
+note right of UpliftModel
+    X-Learner Implementation:
+    1. Train mu0, mu1 (outcome models)
+    2. Impute counterfactuals
+    3. Train tau0, tau1 (CATE models)
+    4. Average for final uplift prediction
+end note
+
+note right of RoutingScorer
+    Routing Score Formula:
+    RS = τ(c,a) - λ₁·AHT_penalty 
+         - λ₂·SLA_penalty 
+         - λ₃·Fairness_penalty
+    
+    Dual variables updated via:
+    λ ← max(0, λ + η·(violation - budget))
+end note
+
+note right of AssignmentSolver
+    Hybrid Assignment:
+    - Voice: Hungarian algorithm (one-to-one)
+    - Chat/Email: Greedy with capacity (one-to-many)
+    
+    Optimized with vectorized operations
+end note
+
+@enduml
+

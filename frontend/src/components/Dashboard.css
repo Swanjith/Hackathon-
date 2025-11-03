@@ -1,0 +1,88 @@
+.dashboard {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.dashboard-section {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.dashboard-section h2 {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.assignments-table {
+  overflow-x: auto;
+}
+
+.assignments-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.assignments-table th,
+.assignments-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.assignments-table th {
+  background: #f8f9fa;
+  font-weight: 600;
+  color: #666;
+}
+
+.assignments-table tr:hover {
+  background: #f8f9fa;
+}
+
+.channel-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.channel-badge.voice {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.channel-badge.chat {
+  background: #e8f5e9;
+  color: #388e3c;
+}
+
+.channel-badge.email {
+  background: #fff3e0;
+  color: #f57c00;
+}
+
+.no-data {
+  text-align: center;
+  color: #999;
+  padding: 2rem;
+}
+
+@media (max-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
