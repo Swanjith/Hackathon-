@@ -349,7 +349,7 @@ See `api/README.md` for complete API endpoint documentation.
 
 ## 📝 License
 
-MIT License - Hackathon Submission 2024
+MIT License - Hackathon Submission 2025
 
 ---
 

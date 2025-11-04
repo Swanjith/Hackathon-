@@ -74,6 +74,15 @@ class RoutingSimulator:
             # Compute assignments using policy
             assignments = policy_fn(customers, available_agents, self.scorer)
             
+            # Print assignments for first few batches (to show in terminal)
+            if batch_id < 3:  # Print first 3 batches only
+                tqdm.write(f"\n  Batch {batch_id} Assignments ({len(assignments)} total):")
+                for c_idx, a_idx in assignments:
+                    customer = customers.iloc[c_idx]
+                    agent = available_agents.iloc[a_idx]
+                    tqdm.write(f"    Customer {customer['customer_id']} → Agent {agent['agent_id']} "
+                               f"| Channel: {customer['channel']:<6} | Skill: {customer['skill_needed']:<10}")
+            
             # Simulate outcomes
             outcomes = []
             for c_idx, a_idx in assignments:
