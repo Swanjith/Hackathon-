@@ -1,6 +1,6 @@
 # SQRS API Server
 
-Flask REST API and WebSocket server for frontend integration.
+Flask REST API and WebSocket server for SQRS system.
 
 ## Setup
 

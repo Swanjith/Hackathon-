@@ -35,13 +35,13 @@ def print_banner():
     banner = """
     ╔════════════════════════════════════════════════════════════════╗
     ║                                                                ║
-    ║          SMART QUEUE ROUTING SYSTEM (SQRS)                    ║
-    ║      CUCB-OTA: Causal Uplift Contextual Bandit +              ║
+    ║          SMART QUEUE ROUTING SYSTEM (SQRS)                     ║
+    ║      CUCB-OTA: Causal Uplift Contextual Bandit +               ║
     ║            Optimal Transport Assignment                        ║
     ║                                                                ║
-    ║  Problem: Tetherfi - AI-Driven Queue Routing                  ║
-    ║  Team: [Your Team Name]                                       ║
-    ║  Hackathon: HACKOTSAVA 2024                                   ║
+    ║  Problem: Tetherfi - AI-Driven Queue Routing                   ║
+    ║  Team: Fullstack Alchemists                                    ║
+    ║  Hackathon: HACKOTSAVA 2025                                    ║
     ║                                                                ║
     ╚════════════════════════════════════════════════════════════════╝
     """
@@ -53,28 +53,7 @@ def print_problem_statement():
     print("\n" + "="*60)
     print("PROBLEM STATEMENT")
     print("="*60)
-    print("""
-Contact centers face a critical challenge: routing customer interactions 
-to the right agent at the right time while balancing multiple constraints.
-
-❌ TRADITIONAL APPROACHES FAIL:
-   • First-Come-First-Served ignores agent-customer compatibility
-   • Skill-based routing doesn't predict incremental satisfaction (uplift)
-   • No consideration of operational constraints (AHT, SLA, fairness)
-   • Can't handle multi-channel capacity management efficiently
-
-✅ OUR SOLUTION: CUCB-OTA
-   • Predicts CSAT Uplift using X-Learner (Causal ML)
-   • Respects Constraints via Lagrangian dual variables
-   • Optimizes Assignment using Hungarian algorithm
-   • Handles Multi-Channel Capacity (voice, chat, email)
    
-KEY INNOVATIONS:
-   1. Causal Uplift Learning: Predicts incremental CSAT from assignments
-   2. Constrained Optimization: Balances AHT, SLA, and fairness automatically
-   3. Optimal Transport: Mathematically optimal assignment algorithm
-   4. Multi-Channel Intelligence: Accounts for channel-specific capacity rules
-    """)
     print("="*60 + "\n")
 
 

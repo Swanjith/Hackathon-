@@ -1,5 +1,5 @@
 """
-Flask API server for SQRS frontend
+Flask API server for SQRS
 Integrates with existing routing system without modifying core logic
 """
 
@@ -446,7 +446,6 @@ if __name__ == '__main__':
     print("SQRS API Server Starting...")
     print("="*60)
     print(f"API will be available at: http://localhost:5000")
-    print(f"Frontend should connect to: http://localhost:5000/api")
     print("="*60 + "\n")
     
     socketio.run(app, host='0.0.0.0', port=5000, debug=True)
